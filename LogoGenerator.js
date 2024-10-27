@@ -1,36 +1,48 @@
 'use strict';
 
 import opentype from './node_modules/opentype.js/dist/opentype.module.js'
+import { addGlow, setColor, getAvailableColors } from './styler.js'
 
 class LogoGenerator {
 	constructor() {
 
-        
+        this.layer = new Layer()
+        this.layer.name = 'logo'
+        paper.project.addLayer(this.layer)
+        this.layer.activate()
 
         //this.loadFont();
         const buffer = fetch('./Beon-Regular.ttf').then(res => res.arrayBuffer())
         buffer.then(buffer => {
+            
+
+
             this.font = opentype.parse(buffer);
 
             this.radius = 400
+            this.colors = getAvailableColors()
+            this.angle = Math.random() * 90 - 45
             this.textMaxHeight = this.radius/3
             this.templateCircle = new Path.Circle(paper.view.center, this.radius)
             this.templateCircle.fillColor = 'red'
             this.templateCircle.remove()
 
             this.gap = this.templateCircle.bounds.height/20
-            this.circleGroup = this.createCircles(this.templateCircle)
-
-            this.assembleText('team', 'huisstijl')
-
-            this.createCircles(this.templateCircle)
-            this.createRings()
-            this.setAngle(-20)
+            
+            this.generate('team', 'huisstijl')
         })
 
 		
 
 	}
+
+    hide(){
+        this.layer.visible = false
+    }
+
+    show(){
+        this.layer.visible = true
+    }
 
     async loadFont() {
         const buffer = await fetch('./Beon-Regular.ttf').then(res => res.arrayBuffer());
@@ -38,9 +50,45 @@ class LogoGenerator {
         console.log(this.font);
     }
 
+    generate(topText, bottomText){
+        console.log(topText, bottomText)
+        if(topText && bottomText){
+            console.log("generate")
+            paper.project.activeLayer.removeChildren()
+            this.circleGroup = this.createCircles(this.templateCircle)
+
+            this.assembleText(topText, bottomText)
+
+            //this.createCircles(this.templateCircle)
+            this.createRings()
+            this.setAngle(this.angle)
+            this.setColors(this.colors)
+        }
+    }
+
     setAngle(angle){
+        this.planet.applyMatrix = false
+        this.planet.rotation = 0
         this.planet.rotate(angle, this.templateCircle.position)
+        this.rings.applyMatrix = false
+        this.rings.rotation = 0
         this.rings.rotate(-angle, this.templateCircle.position)
+
+        this.angle = angle
+    }
+
+    setColors(colors){
+        setColor(this.planet.children[0], colors[0])
+        setColor(this.planet.children[1], colors[1])
+        setColor(this.planet.children[2], colors[1])
+        setColor(this.planet.children[3], colors[0])
+        setColor(this.planet.children[4], colors[0])
+        setColor(this.planet.children[5], colors[1])
+
+        setColor(this.rings.children[0], colors[2])
+        setColor(this.rings.children[1], colors[2])
+
+        this.colors = colors
     }
 
     createCircles(templateCircle) {
@@ -93,8 +141,11 @@ class LogoGenerator {
         ring2.remove()
 
         this.rings = new Group()
-        this.rings.addChild(leftover1)
-        this.rings.addChild(leftover2)
+        this.rings.addChild(addGlow(leftover1))
+        this.rings.addChild(addGlow(leftover2))
+        console.log(this.rings.children)
+
+        //addGlow(leftover1)
         return this.rings
     }
 
@@ -107,12 +158,12 @@ class LogoGenerator {
         textpath2.bounds.topLeft = this.circleGroup[2].bounds.topCenter.add([-w2, 0])
 
         this.planet = new Group()
-        this.planet.addChild(this.cutCircle(this.circleGroup[0], textpath1))
-        this.planet.addChild(this.cutCircle(this.circleGroup[1], textpath1))
-        this.planet.addChild(this.cutCircle(this.circleGroup[2], textpath2))
-        this.planet.addChild(this.cutCircle(this.circleGroup[3], textpath2))
-        this.planet.addChild(textpath1)
-        this.planet.addChild(textpath2)
+        this.planet.addChild(addGlow(this.cutCircle(this.circleGroup[0], textpath1)))
+        this.planet.addChild(addGlow(this.cutCircle(this.circleGroup[1], textpath1)))
+        this.planet.addChild(addGlow(this.cutCircle(this.circleGroup[2], textpath2)))
+        this.planet.addChild(addGlow(this.cutCircle(this.circleGroup[3], textpath2)))
+        this.planet.addChild(addGlow(textpath1, null, w1/this.radius /2))
+        this.planet.addChild(addGlow(textpath2, null, w2/this.radius /2))
 
     }
 
