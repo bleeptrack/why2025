@@ -72,7 +72,7 @@ class LogoGenerator {
         this.planet.rotate(angle, this.templateCircle.position)
         this.rings.applyMatrix = false
         this.rings.rotation = 0
-        this.rings.rotate(-angle, this.templateCircle.position)
+        this.rings.rotate(-angle)
 
         this.angle = angle
     }
@@ -120,10 +120,11 @@ class LogoGenerator {
         let ring1 = new Path.Ellipse([0,0], [this.radius*2*1.3, this.radius*0.3])
         ring1.strokeColor = 'green'
         ring1.position = this.templateCircle.position.add([0, this.gap/2])
+        ring1.translate([0, ring1.bounds.height/2])
 
         let ring2 = ring1.clone()
         ring2.position = this.templateCircle.position.add([0, -this.gap/2])
-
+        ring2.translate([0, ring2.bounds.height/2])
         let cutCircle = new Path.Circle([0,0], this.radius+this.gap/2)
         cutCircle.position = this.templateCircle.position
         cutCircle.fillColor = 'red'
@@ -144,6 +145,7 @@ class LogoGenerator {
         this.rings.addChild(addGlow(leftover1))
         this.rings.addChild(addGlow(leftover2))
         console.log(this.rings.children)
+        this.rings.pivot = this.templateCircle.position
 
         //addGlow(leftover1)
         return this.rings
