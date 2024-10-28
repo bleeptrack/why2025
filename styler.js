@@ -42,12 +42,13 @@ export function addGlow(element, col, strokeCorrection) {
 
 export function getAvailableColors(){
     return [
+        '#61F2FF',
         '#F25E95',
+        '#FFFB96',
         '#B03BBF',
         '#5234BF',
-        '#FFFB96',
         '#F24535',
-        '#61F2FF'
+        
     ]
 }
 

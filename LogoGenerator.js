@@ -21,7 +21,7 @@ class LogoGenerator {
 
             this.radius = 400
             this.colors = getAvailableColors()
-            this.angle = Math.random() * 90 - 45
+            this.angle = -20
             this.textMaxHeight = this.radius/3
             this.templateCircle = new Path.Circle(paper.view.center, this.radius)
             this.templateCircle.fillColor = 'red'
@@ -29,7 +29,7 @@ class LogoGenerator {
 
             this.gap = this.templateCircle.bounds.height/20
             
-            this.generate('team', 'huisstijl')
+            this.generate('why', '2025')
         })
 
 		
@@ -51,8 +51,10 @@ class LogoGenerator {
     }
 
     generate(topText, bottomText){
-        console.log(topText, bottomText)
+        
         if(topText && bottomText){
+            this.topText = topText
+            this.bottomText = bottomText
             console.log("generate")
             paper.project.activeLayer.removeChildren()
             this.circleGroup = this.createCircles(this.templateCircle)
@@ -64,6 +66,7 @@ class LogoGenerator {
             this.setAngle(this.angle)
             this.setColors(this.colors)
         }
+        return [this.colors, this.angle, this.topText, this.bottomText]
     }
 
     setAngle(angle){
