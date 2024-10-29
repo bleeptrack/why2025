@@ -24,12 +24,13 @@ class LogoGenerator {
             this.angle = -20
             this.textMaxHeight = this.radius/3
             this.templateCircle = new Path.Circle(paper.view.center, this.radius)
-            this.templateCircle.fillColor = 'red'
+            this.templateCircle.fillColor = 'black'
             this.templateCircle.remove()
 
             this.gap = this.templateCircle.bounds.height/20
             
             this.generate('why', '2025')
+            this.activateBackground()
         })
 
 		
@@ -42,6 +43,10 @@ class LogoGenerator {
 
     show(){
         this.layer.visible = true
+    }
+
+    activateBackground(){
+        this.templateCircle.insertBelow(this.planet)
     }
 
     async loadFont() {
@@ -67,6 +72,11 @@ class LogoGenerator {
             this.setColors(this.colors)
         }
         return [this.colors, this.angle, this.topText, this.bottomText]
+    }
+
+    setScale(scale){
+        this.layer.applyMatrix = false
+        this.layer.scaling = scale
     }
 
     setAngle(angle){
@@ -167,8 +177,8 @@ class LogoGenerator {
         this.planet.addChild(addGlow(this.cutCircle(this.circleGroup[1], textpath1)))
         this.planet.addChild(addGlow(this.cutCircle(this.circleGroup[2], textpath2)))
         this.planet.addChild(addGlow(this.cutCircle(this.circleGroup[3], textpath2)))
-        this.planet.addChild(addGlow(textpath1, null, w1/this.radius /2))
-        this.planet.addChild(addGlow(textpath2, null, w2/this.radius /2))
+        this.planet.addChild(addGlow(textpath1, null, 0.5))
+        this.planet.addChild(addGlow(textpath2, null, 0.5))
 
     }
 

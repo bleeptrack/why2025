@@ -23,6 +23,7 @@ export class Settings extends HTMLElement {
 					flex-direction: row-reverse;
 					width: 100%;
 					height: 100%;
+					
 				}
 				paper-canvas {
 					width: 70%;
@@ -34,6 +35,8 @@ export class Settings extends HTMLElement {
 					display: flex;
 					flex-direction: column;
 					justify-content: space-around;
+					background-color: black;
+					box-shadow: 20px 0px 20px 0px rgba(0, 0, 0);
 				}	
 				.settings-section {
 					margin: 0 1vh;
@@ -87,7 +90,7 @@ export class Settings extends HTMLElement {
 					width: min(7vh, 7vw);
 					height: min(7vh, 7vw);
 				}
-				input[type="radio"] {
+				input[type="radio"], input[type="checkbox"] {
 					display: none;
 				}
 				.type-selection label {
@@ -99,6 +102,9 @@ export class Settings extends HTMLElement {
 				}
 				input:checked + label {
 					opacity: 1;
+				}
+				input:checked + label > svg {
+					fill: #61F2FF !important;
 				}
 				#settings-type {
 					display: flex;
@@ -112,6 +118,64 @@ export class Settings extends HTMLElement {
 					align-items: center;
 					justify-content: space-around;
 				}
+				#settings-logo div{
+					margin: 3vh 1vh;
+				}
+				input[type="range"] {
+					-webkit-appearance: none;
+					appearance: none;
+					background: transparent;
+					cursor: pointer;
+					width: 100%;
+					margin: 0 1vh;
+				}
+				input[type="range"]::-webkit-slider-runnable-track {
+					background: white;
+					height: 0.25rem;
+				}
+
+				/******** Firefox ********/
+				input[type="range"]::-moz-range-track {
+					background: white;
+					height: 0.25rem;
+				}
+
+				input[type="range"]::-webkit-slider-thumb {
+					-webkit-appearance: none; /* Override default look */
+					appearance: none;
+					margin-top: -12px; /* Centers thumb on the track */
+					background-color: white;
+					height: 2rem;
+					width: 1rem; 
+				}
+
+				/******** Firefox ********/
+				input[type="range"]::-moz-range-thumb {
+					-webkit-appearance: none; /* Override default look */
+					appearance: none;
+					margin-top: -12px; /* Centers thumb on the track */
+					background-color: white;
+					height: 2rem;
+					width: 1rem; 
+				}
+
+				:disabled {
+					opacity: 0.5 !important;
+					cursor: not-allowed !important;
+				}
+				:disabled + label{
+					opacity: 0.5 !important;
+					cursor: not-allowed !important;
+				}
+				button:hover {
+					border-color: #61F2FF !important;
+				}
+				color-picker{
+					margin: 1vh 0;
+				}
+				input[type="text"] {
+					margin: 1vh 0;
+				}
 			</style>
 			<div id="content">
 				<paper-canvas id="paperCanvas"></paper-canvas>
@@ -119,11 +183,11 @@ export class Settings extends HTMLElement {
 
 					<div id="settings-type" class="settings-section">
 						<div class="type-selection">
-							<input id="logo-select" type="radio" name="type" value="logo" checked>
+							<input id="logo-select" type="checkbox" name="type" value="logo" checked>
 							<label for="logo-select">
 								<svg class="generator-type" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#e8eaed"><path d="M480.27-80q-82.74 0-155.5-31.5Q252-143 197.5-197.5t-86-127.34Q80-397.68 80-480.5t31.5-155.66Q143-709 197.5-763t127.34-85.5Q397.68-880 480.5-880t155.66 31.5Q709-817 763-763t85.5 127Q880-563 880-480.27q0 82.74-31.5 155.5Q817-252 763-197.68q-54 54.31-127 86Q563-80 480.27-80Zm-.27-60q142.38 0 241.19-99.5T820-480v-13q-6 26-27.41 43.5Q771.19-432 742-432h-80q-33 0-56.5-23.5T582-512v-40H422v-80q0-33 23.5-56.5T502-712h40v-22q0-16 13.5-40t30.5-29q-25-8-51.36-12.5Q508.29-820 480-820q-141 0-240.5 98.81T140-480h150q66 0 113 47t47 113v40H330v105q34 17 71.7 26t78.3 9Z"/></svg>
 							</label>
-							<input id="pattern-select" type="radio" name="type" value="pattern">
+							<input id="pattern-select" type="checkbox" name="type" value="pattern">
 							<label for="pattern-select">
 								<svg class="generator-type" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#e8eaed"><path d="M180-120q-24 0-42-18t-18-42v-600q0-24 18-42t42-18h600q24 0 42 18t18 42v600q0 24-18 42t-42 18H180Zm0-60h600v-600H180v600Zm0-600v600-600Zm183 470 117-71 117 71-31-133 104-90-137-11-53-126-53 126-137 11 104 90-31 133Z"/></svg>
 							</label>
@@ -151,10 +215,24 @@ export class Settings extends HTMLElement {
 						</div>
 					</div>
 
+					<div class="angle-slider" id="settings-logosize" class="settings-section">
+						<label>
+							<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M480-200 240-440l56-56 184 183 184-183 56 56-240 240Zm0-240L240-680l56-56 184 183 184-183 56 56-240 240Z"/></svg>
+						</label>
+						<input type="range" id="logoSizeSlider" min="0.2" max="0.7" value="0.5" step="0.01">
+						<label for="logoSizeSlider">
+							<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m296-224-56-56 240-240 240 240-56 56-184-183-184 183Zm0-240-56-56 240-240 240 240-56 56-184-183-184 183Z"/></svg>
+						</label>
+					</div>
+
 					<div id="settings-pattern" class="settings-section">
 						<button id="generatePattern">
 							<svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#e8eaed"><path d="M196-331q-20-36-28-72.5t-8-74.5q0-131 94.5-225.5T480-798h43l-80-80 39-39 149 149-149 149-40-40 79-79h-41q-107 0-183.5 76.5T220-478q0 29 5.5 55t13.5 49l-43 43ZM476-40 327-189l149-149 39 39-80 80h45q107 0 183.5-76.5T740-479q0-29-5-55t-15-49l43-43q20 36 28.5 72.5T800-479q0 131-94.5 225.5T480-159h-45l80 80-39 39Z"/></svg>
 						</button>
+						<input id="preview-toggle" type="checkbox" name="preview">
+						<label for="preview-toggle">
+							<svg xmlns="http://www.w3.org/2000/svg" height="72px" viewBox="0 -960 960 960" width="72px" fill="#e8eaed"><path d="M180-120q-24.75 0-42.37-17.63Q120-155.25 120-180v-600q0-24.75 17.63-42.38Q155.25-840 180-840h600q24.75 0 42.38 17.62Q840-804.75 840-780v600q0 24.75-17.62 42.37Q804.75-120 780-120H180Zm0-60h600v-520H180v520Zm300.04-105Q400-285 337-328.15q-63-43.15-92-112Q274-509 336.96-552q62.96-43 143-43Q560-595 623-551.85q63 43.15 92 112Q686-371 623.04-328q-62.96 43-143 43Zm-.04-50q57 0 104.95-27.83Q632.9-390.65 660-440q-27.1-49.35-75.05-77.17Q537-545 480-545t-104.95 27.83Q327.1-489.35 300-440q27.1 49.35 75.05 77.17Q423-335 480-335Zm0-105Zm.12 50q20.88 0 35.38-14.62 14.5-14.62 14.5-35.5 0-20.88-14.62-35.38-14.62-14.5-35.5-14.5-20.88 0-35.38 14.62-14.5 14.62-14.5 35.5 0 20.88 14.62 35.38 14.62 14.5 35.5 14.5Z"/></svg>
+						</label>
 					</div>
 
 					<div id="download-buttons" class="settings-section">
@@ -173,6 +251,66 @@ export class Settings extends HTMLElement {
 		this.shadow.appendChild(container.content.cloneNode(true));
 	}
 	
+	getType(){
+		if(this.shadow.getElementById('logo-select').checked && this.shadow.getElementById('pattern-select').checked){
+			return 'combined'
+		}else if(this.shadow.getElementById('logo-select').checked){
+			return 'logo'
+		}
+		return 'pattern'
+		
+	}
+
+	setUIByType(type){
+		if(type === 'logo'){
+			console.log("UI logo")
+			this.shadow.getElementById('settings-logo').style.display = 'block'
+			this.shadow.getElementById('settings-pattern').style.display = 'none'	
+			this.shadow.getElementById('settings-logosize').style.display = 'none'
+		}else if(type === 'pattern'){
+			console.log("UI pattern")
+			this.shadow.getElementById('settings-logo').style.display = 'none'
+			this.shadow.getElementById('settings-pattern').style.display = 'flex'	
+			this.shadow.getElementById('settings-logosize').style.display = 'none'
+		}else{
+			console.log("UI combined")
+			this.shadow.getElementById('settings-logo').style.display = 'block'
+			this.shadow.getElementById('settings-pattern').style.display = 'flex'
+			this.shadow.getElementById('settings-logosize').style.display = 'flex'
+		}
+	}
+
+	disableUI(){
+		this.shadow.getElementById('logo-select').disabled = true
+		this.shadow.getElementById('pattern-select').disabled = true
+		this.shadow.getElementById('generatePattern').disabled = true
+		this.shadow.getElementById('downloadSvg').disabled = true
+		this.shadow.getElementById('downloadPng').disabled = true
+		this.shadow.getElementById('logoSizeSlider').disabled = true
+		this.shadow.getElementById('angleSlider').disabled = true
+		this.shadow.getElementById('top-text').disabled = true
+		this.shadow.getElementById('bottom-text').disabled = true
+		this.shadow.querySelectorAll('color-picker').forEach(input => {
+			console.log(input)
+			input.disable()
+		})
+		
+	}
+
+	enableUI(){
+		this.shadow.getElementById('logo-select').disabled = false
+		this.shadow.getElementById('pattern-select').disabled = false
+		this.shadow.getElementById('generatePattern').disabled = false
+		this.shadow.getElementById('downloadSvg').disabled = false
+		this.shadow.getElementById('downloadPng').disabled = false
+		this.shadow.getElementById('logoSizeSlider').disabled = false
+		this.shadow.getElementById('angleSlider').disabled = false
+		this.shadow.getElementById('top-text').disabled = false
+		this.shadow.getElementById('bottom-text').disabled = false
+		this.shadow.querySelectorAll('color-picker').forEach(input => {
+			input.enable()
+		})
+	}
 	
 	connectedCallback() {
 		this.paperCanvas = this.shadow.getElementById('paperCanvas')
@@ -226,16 +364,52 @@ export class Settings extends HTMLElement {
 		})
 
 		this.shadow.getElementById('logo-select').addEventListener('click', () => {
-			this.paperCanvas.setType('logo')
+			if(!this.shadow.getElementById('logo-select').checked && !this.shadow.getElementById('pattern-select').checked){
+				this.shadow.getElementById('logo-select').checked = true
+				console.log("keep logo checked")
+			}else{
+				this.setUIByType(this.getType())
+				this.paperCanvas.setType(this.getType())
+			}
+
 		})
 
 		this.shadow.getElementById('pattern-select').addEventListener('click', () => {
-			this.paperCanvas.setType('pattern')
+			if(!this.shadow.getElementById('logo-select').checked && !this.shadow.getElementById('pattern-select').checked){
+				this.shadow.getElementById('pattern-select').checked = true
+				console.log("keep pattern checked")
+			}else{
+				this.setUIByType(this.getType())
+				this.paperCanvas.setType(this.getType())
+			}
 		})
 
 		this.shadow.getElementById('generatePattern').addEventListener('click', () => {
 			this.paperCanvas.generatePattern()
+			this.paperCanvas.setType(this.getType())
 		})
+
+		this.shadow.getElementById('logoSizeSlider').addEventListener('input', (e) => {
+			this.paperCanvas.setLogoSize(e.target.value)
+		})
+
+		this.shadow.getElementById('preview-toggle').addEventListener('click', () => {
+			if(this.shadow.getElementById('preview-toggle').checked){
+				this.paperCanvas.setPNGasBackground()
+				this.disableUI()
+			}else{
+				this.enableUI()
+				document.body.style.background = 'black'
+				if(this.shadow.getElementById('logo-select').checked){
+					this.paperCanvas.logo.show()
+				}
+				if(this.shadow.getElementById('pattern-select').checked){
+					this.paperCanvas.pattern.show()
+				}
+			}
+		})
+
+		this.setUIByType(this.getType())
 	}
 
 }

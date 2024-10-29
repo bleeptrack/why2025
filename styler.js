@@ -1,8 +1,9 @@
-export function addGlow(element, col, strokeCorrection) {
+export function addGlow(element, col, strokeCorrection, glowCorrection) {
     let color = col ? col : element.strokeColor
+    let baseStrokeWidth = 15
     if(!color) color = 'red'
     console.log("strokeCorrection", strokeCorrection)
-    element.strokeWidth = strokeCorrection ? 15 * strokeCorrection : 15
+    element.strokeWidth = strokeCorrection ? baseStrokeWidth * strokeCorrection : baseStrokeWidth
     element.strokeColor = color
     element.fillColor = null
 
@@ -16,13 +17,13 @@ export function addGlow(element, col, strokeCorrection) {
     let dropshadow = element.clone()
     dropshadow.shadowColor = 'black'
     dropshadow.shadowBlur = 4
-    dropshadow.shadowOffset = new Point(-element.strokeWidth/2, element.strokeWidth/2)
+    dropshadow.shadowOffset = new Point(-baseStrokeWidth/2, baseStrokeWidth/2)
     dropshadow.opacity = 0.5
     dropshadow.name = 'dropshadow'
 
     let glow = element.clone()
     glow.shadowColor = color
-    glow.shadowBlur = element.strokeWidth * 2
+    glow.shadowBlur = baseStrokeWidth * 2 * (glowCorrection ? glowCorrection : 1)
     glow.name = 'glow'
 
     //make the main line slightlyfuzzy

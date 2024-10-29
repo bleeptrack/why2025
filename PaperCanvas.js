@@ -39,21 +39,38 @@ export class PaperCanvas extends HTMLElement {
 		//this.setSVGasBackground()
 	}
 
-	generatePattern(){
+	generatePattern(includeLogo = false){
 		this.pattern = new PatternGenerator();
+		if(includeLogo){
+			this.logo.show()
+		}
 	}
 
 	setType(type){
 		if(type === 'logo'){
+			this.logo.setScale(1)
 			this.logo.show()
 			this.pattern.hide()
+			document.body.style.background = 'black'
 		}else if(type === 'pattern'){
 			if(!this.pattern){
 				this.pattern = new PatternGenerator();
 			}
 			this.logo.hide()
 			this.pattern.show()
+		}else{
+			if(!this.pattern){
+				this.pattern = new PatternGenerator();
+			}
+			this.logo.setScale(0.5)
+			this.logo.show()
+			this.pattern.show()
+			this.logo.layer.bringToFront()
 		}
+	}
+
+	setLogoSize(size){
+		this.logo.setScale(size)
 	}
 
 	setColors(colors){
@@ -135,12 +152,12 @@ export class PaperCanvas extends HTMLElement {
 
 		// Create a new canvas with trimmed size
 		const trimmedCanvas = document.createElement('canvas');
-		trimmedCanvas.width = trimmedWidth;
-		trimmedCanvas.height = trimmedHeight;
+		trimmedCanvas.width = trimmedWidth-1;
+		trimmedCanvas.height = trimmedHeight-1;
 
 		// Draw the trimmed image
 		const trimmedCtx = trimmedCanvas.getContext('2d');
-		trimmedCtx.drawImage(tempCanvas, minX, minY, trimmedWidth, trimmedHeight, 0, 0, trimmedWidth, trimmedHeight);
+		trimmedCtx.drawImage(tempCanvas, minX, minY, trimmedWidth-1, trimmedHeight-1, 0, 0, trimmedWidth-1, trimmedHeight-1);
 
 		// Convert to blob and return
 		return new Promise(resolve => {
@@ -167,6 +184,8 @@ export class PaperCanvas extends HTMLElement {
 
 		// Set the SVG as the background image of the body
 		document.body.style.backgroundImage = `url(${url})`;
+		this.logo.hide()
+		this.pattern.hide()
 		//document.body.style.backgroundRepeat = 'no-repeat';
 		//document.body.style.backgroundPosition = 'center';
 		//document.body.style.backgroundSize = 'cover';
@@ -175,6 +194,16 @@ export class PaperCanvas extends HTMLElement {
 
 		// Clean up the object URL to free memory
 		//URL.revokeObjectURL(url);
+	}
+
+	async setPNGasBackground(){
+		
+		paper.view.draw()
+		let blob = await this.trimTransparentPixels()
+		document.body.style.backgroundImage = `url(${URL.createObjectURL(blob)})`
+		document.body.style.backgroundSize = '30%'
+		this.logo.hide()
+		this.pattern.hide()
 	}
 
 }

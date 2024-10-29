@@ -20,6 +20,7 @@ export class ColorPicker extends HTMLElement {
 					display: flex;
 					flex-direction: row;
 					justify-content: space-around;
+					margin: 1vh 0;
 				}
 				.color-option {
 					width: 14%;
@@ -35,6 +36,10 @@ export class ColorPicker extends HTMLElement {
                 input[type="radio"]:not(:checked) + label:hover {
 					border-width: max(1vh, 1vw) !important;
 				}
+				input[type="radio"]:disabled + label {
+					cursor: not-allowed !important;
+					opacity: 0.5 !important;
+				}
 			</style>
 			<div id="content">
 				
@@ -43,6 +48,17 @@ export class ColorPicker extends HTMLElement {
 		this.shadow.appendChild(container.content.cloneNode(true));
 	}
 	
+	disable() {
+		this.shadow.querySelectorAll('input[type="radio"]').forEach(input => {
+			input.disabled = true
+		})
+	}
+
+	enable() {
+		this.shadow.querySelectorAll('input[type="radio"]').forEach(input => {
+			input.disabled = false
+		})
+	}
 	
 	connectedCallback() {
 		let content = this.shadow.querySelector('#content')

@@ -7,6 +7,7 @@ class PatternGenerator {
 
         this.layer = new Layer()
         this.layer.name = 'pattern'
+        this.layer.sendToBack()
 
 
         if(paper.project.layers['pattern']){
@@ -33,10 +34,10 @@ class PatternGenerator {
 
     createBaseStars() {
         this.baseRectangle = new Path.Rectangle(new Point(0, 0), new Size(800, 800))
-        this.baseRectangle.fillColor = 'darkblue'
+        this.baseRectangle.fillColor = 'black'
         this.baseRectangle.position = view.center
 
-        this.patternRectangle = new Path.Rectangle(new Point(0, 0), this.baseRectangle.bounds.size.subtract(new Size(30, 30)))
+        this.patternRectangle = new Path.Rectangle(new Point(0, 0), this.baseRectangle.bounds.size.subtract(new Size(50, 50)))
         this.patternRectangle.position = this.baseRectangle.position
         this.patternRectangle.remove()
 
@@ -166,7 +167,7 @@ class PatternGenerator {
             if(star.wrappingStar) {
                 star.remove()
             }else{
-                addGlow(star, "white", 0.5)
+                addGlow(star, "white", 0.5, 0.1)
             }
         }
     }
