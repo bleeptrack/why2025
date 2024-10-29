@@ -31,6 +31,8 @@ class LogoGenerator {
             
             this.generate('why', '2025')
             this.activateBackground()
+            this.layer.fitBounds(paper.view.bounds)
+            this.layer.scale(0.8)
         })
 
 		

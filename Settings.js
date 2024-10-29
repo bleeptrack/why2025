@@ -219,7 +219,7 @@ export class Settings extends HTMLElement {
 						<label>
 							<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M480-200 240-440l56-56 184 183 184-183 56 56-240 240Zm0-240L240-680l56-56 184 183 184-183 56 56-240 240Z"/></svg>
 						</label>
-						<input type="range" id="logoSizeSlider" min="0.2" max="0.7" value="0.5" step="0.01">
+						<input type="range" id="logoSizeSlider" min="0.2" max="0.85" value="0.5" step="0.01">
 						<label for="logoSizeSlider">
 							<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m296-224-56-56 240-240 240 240-56 56-184-183-184 183Zm0-240-56-56 240-240 240 240-56 56-184-183-184 183Z"/></svg>
 						</label>

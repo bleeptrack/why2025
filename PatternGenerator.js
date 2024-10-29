@@ -22,6 +22,8 @@ class PatternGenerator {
         this.makeConnections()
         this.cleanUp()
 
+        this.layer.fitBounds(paper.view.bounds)
+        this.layer.scale(0.8)
 	}
 
     hide(){
