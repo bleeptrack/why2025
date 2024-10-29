@@ -23,6 +23,7 @@ class LogoGenerator {
             this.colors = getAvailableColors()
             this.angle = -20
             this.textMaxHeight = this.radius/3
+
             this.templateCircle = new Path.Circle(paper.view.center, this.radius)
             this.templateCircle.fillColor = 'black'
             this.templateCircle.remove()
@@ -31,6 +32,8 @@ class LogoGenerator {
             
             this.generate('why', '2025')
             this.activateBackground()
+
+            this.layer.activate()
             this.layer.fitBounds(paper.view.bounds)
             this.layer.scale(0.8)
         })
@@ -58,12 +61,23 @@ class LogoGenerator {
     }
 
     generate(topText, bottomText){
+
+        let lastScale = this.layer.scaling
         
         if(topText && bottomText){
             this.topText = topText
             this.bottomText = bottomText
             console.log("generate")
-            paper.project.activeLayer.removeChildren()
+            
+            this.layer.remove()
+            this.layer = new Layer()
+            this.layer.name = 'logo'
+            paper.project.addLayer(this.layer)
+            this.layer.activate()
+
+
+            this.templateCircle = new Path.Circle(paper.view.center, this.radius)
+            this.templateCircle.fillColor = 'black'
             this.circleGroup = this.createCircles(this.templateCircle)
 
             this.assembleText(topText, bottomText)
@@ -72,6 +86,12 @@ class LogoGenerator {
             this.createRings()
             this.setAngle(this.angle)
             this.setColors(this.colors)
+            this.layer.fitBounds(paper.view.bounds)
+            this.layer.scale(0.8)
+
+            if(lastScale){
+                this.setScale(lastScale)
+            }
         }
         return [this.colors, this.angle, this.topText, this.bottomText]
     }
@@ -108,7 +128,7 @@ class LogoGenerator {
 
     createCircles(templateCircle) {
         let mainCirc = templateCircle.clone()
-        mainCirc.fillColor = 'red'
+       
         
         let cutout = new Path.Rectangle(new Point(0, 0), new Size(templateCircle.bounds.width, this.gap))
         cutout.position = templateCircle.position
@@ -142,7 +162,7 @@ class LogoGenerator {
         ring2.translate([0, ring2.bounds.height/2])
         let cutCircle = new Path.Circle([0,0], this.radius+this.gap/2)
         cutCircle.position = this.templateCircle.position
-        cutCircle.fillColor = 'red'
+        
 
         let inters1 = ring1.getIntersections(cutCircle)
         ring1.splitAt(inters1[0])
@@ -211,7 +231,7 @@ class LogoGenerator {
 
         let textpath = paper.project.importSVG(plainPath.toSVG())
         textpath.position = this.templateCircle.position
-        textpath.fillColor = 'red'
+       
 
         //let q = (textpath1.bounds.height + this.gap*1.5) / (textpath1.bounds.width/2)
         let hv = textpath.bounds.height 
