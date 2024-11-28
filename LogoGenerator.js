@@ -126,7 +126,7 @@ class LogoGenerator {
         setColor(this.planet.children[5], colors[1])
 
         setColor(this.rings.children[0], colors[2])
-        setColor(this.rings.children[1], colors[2])
+        setColor(this.rings.children[1], colors[3])
 
         this.colors = colors
     }

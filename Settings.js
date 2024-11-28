@@ -200,6 +200,7 @@ export class Settings extends HTMLElement {
 							<color-picker id="colorPicker1" checkedColor="0"></color-picker>
 							<color-picker id="colorPicker2" checkedColor="1"></color-picker>
 							<color-picker id="colorPicker3" checkedColor="2"></color-picker>
+							<color-picker id="colorPicker4" checkedColor="3"></color-picker>	
 						</div>
 						<div class="angle-slider">
 							<label for="angleSlider">
@@ -340,7 +341,10 @@ export class Settings extends HTMLElement {
 			this.paperCanvas.setColors(this.selectedColors)
 		})
 
-		
+		this.shadow.getElementById('colorPicker4').addEventListener('color-selected', (e) => {
+			this.selectedColors[3] = e.detail
+			this.paperCanvas.setColors(this.selectedColors)
+		})
 
 		this.shadow.getElementById('angleSlider').addEventListener('input', (e) => {
 			this.paperCanvas.setAngle(e.target.value)
