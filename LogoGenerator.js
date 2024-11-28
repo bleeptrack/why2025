@@ -199,8 +199,9 @@ class LogoGenerator {
         this.planet.addChild(addGlow(this.cutCircle(this.circleGroup[1], textpath1)))
         this.planet.addChild(addGlow(this.cutCircle(this.circleGroup[2], textpath2)))
         this.planet.addChild(addGlow(this.cutCircle(this.circleGroup[3], textpath2)))
-        this.planet.addChild(addGlow(textpath1, null, 0.5))
-        this.planet.addChild(addGlow(textpath2, null, 0.5))
+        this.planet.addChild(addGlow(textpath1, null, Math.min(0.7 - (0.5 * textpath1.bounds.width/this.circleGroup[1].bounds.width), 0.5), 1.5))
+        this.planet.addChild(addGlow(textpath2, null, Math.min(0.7 - (0.5 * textpath2.bounds.width/this.circleGroup[1].bounds.width), 0.5), 1.5))
+        console.log("width", 0.7 - (0.5 * textpath1.bounds.width/this.circleGroup[1].bounds.width))
 
     }
 
