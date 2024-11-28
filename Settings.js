@@ -278,16 +278,19 @@ export class Settings extends HTMLElement {
 			this.shadow.getElementById('settings-logo').style.display = 'block'
 			this.shadow.getElementById('settings-pattern').style.display = 'none'	
 			this.shadow.getElementById('settings-logosize').style.display = 'none'
+			this.shadow.getElementById('settings-logorotation').style.display = 'none'
 		}else if(type === 'pattern'){
 			console.log("UI pattern")
 			this.shadow.getElementById('settings-logo').style.display = 'none'
 			this.shadow.getElementById('settings-pattern').style.display = 'flex'	
 			this.shadow.getElementById('settings-logosize').style.display = 'none'
+			this.shadow.getElementById('settings-logorotation').style.display = 'none'
 		}else{
 			console.log("UI combined")
 			this.shadow.getElementById('settings-logo').style.display = 'block'
 			this.shadow.getElementById('settings-pattern').style.display = 'flex'
 			this.shadow.getElementById('settings-logosize').style.display = 'flex'
+			this.shadow.getElementById('settings-logorotation').style.display = 'flex'
 		}
 	}
 
