@@ -49,6 +49,7 @@ export class PaperCanvas extends HTMLElement {
 	setType(type){
 		if(type === 'logo'){
 			this.logo.setScale(1)
+			this.logo.setBackgroundSpacer(false)
 			this.logo.show()
 			this.pattern.hide()
 			document.body.style.background = 'black'
@@ -63,10 +64,15 @@ export class PaperCanvas extends HTMLElement {
 				this.pattern = new PatternGenerator();
 			}
 			this.logo.setScale(0.5)
+			this.logo.setBackgroundSpacer(true)
 			this.logo.show()
 			this.pattern.show()
 			this.logo.layer.bringToFront()
 		}
+	}
+
+	setMonochrome(){
+		this.logo.setMonochrome()
 	}
 
 	setLogoSize(size){
@@ -89,36 +95,81 @@ export class PaperCanvas extends HTMLElement {
 		this.logo.generate(topText, bottomText)
 	}
 
-	async exportPNG(){
-		paper.view.draw();
-		//paper.view.element.toBlob((blob) => { this.saveAs(blob, "image.png");});
-		let blob = await this.trimTransparentPixels()
-		this.saveAs(blob, "image.png")
+	async exportPNG(colored){
+		
+			paper.view.draw();
+			//paper.view.element.toBlob((blob) => { this.saveAs(blob, "image.png");});
+			let blob = await this.trimTransparentPixels()
+			this.saveAs(blob, "image.png")
+
+			if(!colored){
+				// Create a temporary canvas for inverting colors
+				const invCanvas = document.createElement('canvas');
+				const invCtx = invCanvas.getContext('2d');
+
+				// Convert blob to image to work with
+				const img = new Image();
+				const blobUrl = URL.createObjectURL(blob);
+
+				return new Promise((resolve) => {
+					img.onload = () => {
+						invCanvas.width = img.width;
+						invCanvas.height = img.height;
+
+						// Draw original image
+						invCtx.drawImage(img, 0, 0);
+
+						// Get image data and invert colors
+						const imageData = invCtx.getImageData(0, 0, invCanvas.width, invCanvas.height);
+						const data = imageData.data;
+						for (let i = 0; i < data.length; i += 4) {
+							data[i] = 255 - data[i];         // Red
+							data[i + 1] = 255 - data[i + 1]; // Green 
+							data[i + 2] = 255 - data[i + 2]; // Blue
+						}
+
+						// Put inverted image data back
+						invCtx.putImageData(imageData, 0, 0);
+
+						// Convert to blob and save
+						invCanvas.toBlob(invBlob => {
+							this.saveAs(invBlob, "image-inverted.png");
+							URL.revokeObjectURL(blobUrl);
+							resolve();
+						});
+					};
+					img.src = blobUrl;
+				});
+			}
+		
 	}
 
-	exportSVG(){
-		//this.setSVGasBackground()
-		// Get the SVG representation of the current paper.js project
-		const svg = paper.project.exportSVG({ asString: true });
+	exportSVG(colored){
+		
+			//this.setSVGasBackground()
+			// Get the SVG representation of the current paper.js project
+			const svg = paper.project.exportSVG({ asString: true });
 
-		// Create a Blob with the SVG content
-		const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+			// Create a Blob with the SVG content
+			const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
 
-		// Create a temporary URL for the Blob
-		const url = URL.createObjectURL(blob);
+			// Create a temporary URL for the Blob
+			const url = URL.createObjectURL(blob);
 
-		// Create a temporary anchor element
-		const link = document.createElement('a');
-		link.href = url;
-		link.download = 'image.svg';
+			// Create a temporary anchor element
+			const link = document.createElement('a');
+			link.href = url;
+			link.download = 'image.svg';
 
-		// Append the link to the body, click it, and remove it
-		document.body.appendChild(link);
-		link.click();
-		document.body.removeChild(link);
+			// Append the link to the body, click it, and remove it
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
 
-		// Release the URL object
-		URL.revokeObjectURL(url);
+			// Release the URL object
+			URL.revokeObjectURL(url);
+		
+
 	}
 
 	trimTransparentPixels() {

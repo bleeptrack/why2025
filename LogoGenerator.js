@@ -77,7 +77,7 @@ class LogoGenerator {
 
 
             this.templateCircle = new Path.Circle(paper.view.center, this.radius)
-            this.templateCircle.fillColor = 'black'
+            //his.templateCircle.fillColor = 'black't
             this.circleGroup = this.createCircles(this.templateCircle)
 
             this.assembleText(topText, bottomText)
@@ -94,6 +94,10 @@ class LogoGenerator {
             }
         }
         return [this.colors, this.angle, this.topText, this.bottomText]
+    }
+
+    setBackgroundSpacer(mode){
+        this.templateCircle.fillColor = mode ? 'black' : null
     }
 
     setScale(scale){
@@ -129,6 +133,10 @@ class LogoGenerator {
         setColor(this.rings.children[1], colors[3])
 
         this.colors = colors
+    }
+
+    setMonochrome(){
+        this.setColors(['white', 'white', 'white', 'white'])
     }
 
     createCircles(templateCircle) {
