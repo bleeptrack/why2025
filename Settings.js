@@ -207,7 +207,8 @@ export class Settings extends HTMLElement {
 							</label>
 							<input type="range" id="angleSlider" min="-45" max="45" value="-20" step="1">
 							<span>
-								<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e8eaed"><path d="M516-53v-73q41-6 79-24t70-49l51 51q-42 42-93.5 65.5T516-53Zm-72 0Q315-67 229.5-161.5T144-387q0-70 26.5-131t72-106.5Q288-670 349-696t131-26h39l-90-89 51-51 170 170-170 169-51-51 77-76h-27q-110 0-186.5 76.5T216-387q0 101 64 174t164 87v73Zm318-151-54-53q19-33 27-69t8-73h73q0 51-12.5 100.5T762-204Zm43-267h-76q-9-28-24-54t-38-49l51-50q33 33 54.5 72t32.5 81Z"/></svg></span>
+								<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e8eaed"><path d="M516-53v-73q41-6 79-24t70-49l51 51q-42 42-93.5 65.5T516-53Zm-72 0Q315-67 229.5-161.5T144-387q0-70 26.5-131t72-106.5Q288-670 349-696t131-26h39l-90-89 51-51 170 170-170 169-51-51 77-76h-27q-110 0-186.5 76.5T216-387q0 101 64 174t164 87v73Zm318-151-54-53q19-33 27-69t8-73h73q0 51-12.5 100.5T762-204Zm43-267h-76q-9-28-24-54t-38-49l51-50q33 33 54.5 72t32.5 81Z"/></svg>
+							</span>
 						</div>
 						<div class="text-inputs">
 							<input type="text" id="top-text" placeholder="Enter top text" value="WHY">
@@ -222,6 +223,15 @@ export class Settings extends HTMLElement {
 						<input type="range" id="logoSizeSlider" min="0.2" max="0.85" value="0.5" step="0.01">
 						<label for="logoSizeSlider">
 							<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m296-224-56-56 240-240 240 240-56 56-184-183-184 183Zm0-240-56-56 240-240 240 240-56 56-184-183-184 183Z"/></svg>
+						</label>
+					</div>
+					<div class="angle-slider" id="settings-logorotation" class="settings-section">
+						<label>
+								<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e8eaed"><path d="M444-53q-55-6-106.5-29.5T244-148l51-51q32 31 70 49t79 24v73Zm72 0v-73q100-14 164-87t64-174q0-110-76.5-186.5T481-650h-27l77 76-51 51-170-169 170-170 51 51-90 89h39q70 0 131 26t106.5 71.5Q763-579 789.5-518T816-387q0 131-85.5 225.5T516-53ZM198-204q-29-45-41.5-94.5T144-399h73q0 37 8 73t27 69l-54 53Zm-43-267q11-42 32.5-81t54.5-72l51 50q-23 23-38 49t-24 54h-76Z"/></svg>
+						</label>
+						<input type="range" id="logoRotationSlider" min="-180" max="180" value="0" step="1">
+						<label for="logoRotationSlider">
+								<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#e8eaed"><path d="M516-53v-73q41-6 79-24t70-49l51 51q-42 42-93.5 65.5T516-53Zm-72 0Q315-67 229.5-161.5T144-387q0-70 26.5-131t72-106.5Q288-670 349-696t131-26h39l-90-89 51-51 170 170-170 169-51-51 77-76h-27q-110 0-186.5 76.5T216-387q0 101 64 174t164 87v73Zm318-151-54-53q19-33 27-69t8-73h73q0 51-12.5 100.5T762-204Zm43-267h-76q-9-28-24-54t-38-49l51-50q33 33 54.5 72t32.5 81Z"/></svg>
 						</label>
 					</div>
 
@@ -391,6 +401,10 @@ export class Settings extends HTMLElement {
 
 		this.shadow.getElementById('logoSizeSlider').addEventListener('input', (e) => {
 			this.paperCanvas.setLogoSize(e.target.value)
+		})
+
+		this.shadow.getElementById('logoRotationSlider').addEventListener('input', (e) => {
+			this.paperCanvas.setLogoRotation(e.target.value)
 		})
 
 		this.shadow.getElementById('preview-toggle').addEventListener('click', () => {

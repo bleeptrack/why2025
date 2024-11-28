@@ -101,6 +101,11 @@ class LogoGenerator {
         this.layer.scaling = scale
     }
 
+    setRotation(rotation){
+        this.layer.applyMatrix = false
+        this.layer.rotation = rotation
+    }
+
     setAngle(angle){
         this.planet.applyMatrix = false
         this.planet.rotation = 0

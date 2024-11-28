@@ -73,6 +73,10 @@ export class PaperCanvas extends HTMLElement {
 		this.logo.setScale(size)
 	}
 
+	setLogoRotation(rotation){
+		this.logo.setRotation(rotation)
+	}
+
 	setColors(colors){
 		this.logo.setColors(colors)
 	}
