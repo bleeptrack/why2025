@@ -240,6 +240,9 @@ export class Settings extends HTMLElement {
 						<div class="text-inputs">
 							<input type="text" id="top-text" placeholder="Enter top text" value="WHY">
 							<input type="text" id="bottom-text" placeholder="Enter bottom text" value="2025">
+							<input type="checkbox" id="flip-text">
+							<label for="flip-text">Flip</label>
+							<button id="text-swap">Swap</button>
 						</div>
 					</div>
 
@@ -405,7 +408,10 @@ export class Settings extends HTMLElement {
 			console.log("type")
 			topTextDebounceTimer = setTimeout(() => {
 				console.log("set")
-				this.paperCanvas.setText(this.shadow.getElementById('top-text').value, this.shadow.getElementById('bottom-text').value);
+				if(this.shadow.getElementById('top-text').value.trim() !== ''){
+					this.paperCanvas.setText(this.shadow.getElementById('top-text').value, this.shadow.getElementById('bottom-text').value, this.shadow.getElementById('flip-text').checked);
+					this.paperCanvas.setType(this.getType())
+				}
 			}, 500); // 300ms debounce delay
 		});
 
@@ -414,9 +420,24 @@ export class Settings extends HTMLElement {
 			console.log("type")
 			topTextDebounceTimer = setTimeout(() => {
 				console.log("set")
-				this.paperCanvas.setText(this.shadow.getElementById('top-text').value, this.shadow.getElementById('bottom-text').value);
+				if(this.shadow.getElementById('bottom-text').value.trim() !== ''){
+					this.paperCanvas.setText(this.shadow.getElementById('top-text').value, this.shadow.getElementById('bottom-text').value, this.shadow.getElementById('flip-text').checked);
+					this.paperCanvas.setType(this.getType())
+				}
 			}, 500); // 300ms debounce delay
 		});
+
+		this.shadow.getElementById('flip-text').addEventListener('click', () => {
+			this.paperCanvas.setText(this.shadow.getElementById('top-text').value, this.shadow.getElementById('bottom-text').value, this.shadow.getElementById('flip-text').checked)
+		})
+
+		this.shadow.getElementById('text-swap').addEventListener('click', () => {
+			let topText = this.shadow.getElementById('top-text').value
+			let bottomText = this.shadow.getElementById('bottom-text').value
+			this.shadow.getElementById('top-text').value = bottomText
+			this.shadow.getElementById('bottom-text').value = topText
+			this.paperCanvas.setText(this.shadow.getElementById('top-text').value, this.shadow.getElementById('bottom-text').value, this.shadow.getElementById('flip-text').checked)
+		})
 
 		this.shadow.getElementById('downloadSvg').addEventListener('click', () => {
 			let colored = this.shadow.getElementById('setColor').classList.contains('activeColorMode')
@@ -450,7 +471,7 @@ export class Settings extends HTMLElement {
 		})
 
 		this.shadow.getElementById('generatePattern').addEventListener('click', () => {
-			this.paperCanvas.generatePattern()
+			this.paperCanvas.generatePattern(this.shadow.getElementById('top-text').value+this.shadow.getElementById('bottom-text').value)
 			this.paperCanvas.setType(this.getType())
 		})
 

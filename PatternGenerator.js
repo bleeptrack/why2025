@@ -1,9 +1,12 @@
 'use strict';
 
 import { addGlow, setColor } from './styler.js'
+import {prng_alea} from './node_modules/esm-seedrandom/esm/alea.min.mjs'
 
 class PatternGenerator {
-	constructor() {
+	constructor(text) {
+        console.log("text seed", text)
+        this.rng = prng_alea(text)
 
         this.layer = new Layer()
         this.layer.name = 'pattern'
@@ -30,6 +33,10 @@ class PatternGenerator {
        this.layer.visible = false
     }
 
+    isVisible(){
+        return this.layer.visible
+    }
+
     show(){
        this.layer.visible = true
     }
@@ -44,11 +51,12 @@ class PatternGenerator {
         this.patternRectangle.remove()
 
         this.stars = []
-        for(let i = 0; i < Math.random() * 150 + 80; i++) {
-            let star = new Path.Circle(new Point(0, 0), Math.random() * 10 + 2)
+        for(let i = 0; i < this.rng() * 150 + 80; i++) {
+            let star = new Path.Circle(new Point(0, 0), this.rng() * 10 + 2)
             star.scale(0.2)
             star.fillColor = 'white'
-            star.position = Point.random().multiply(this.patternRectangle.bounds.size).add(this.patternRectangle.bounds.topLeft)
+            let rndPos = new Point(this.rng(), this.rng())
+            star.position = rndPos.multiply(this.patternRectangle.bounds.size).add(this.patternRectangle.bounds.topLeft)
             this.stars.push(star)
         }
         console.log("created", this.stars.length, "stars")
@@ -125,7 +133,7 @@ class PatternGenerator {
                 if(!this.baseRectangle.bounds.contains(connection.position)){
                     connection.remove()
                 }else{
-                    if(Math.random() > 0.3){
+                    if(this.rng() > 0.3){
                         connections.push(connection)
                     }else{
                         connection.remove()

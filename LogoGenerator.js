@@ -60,7 +60,7 @@ class LogoGenerator {
         console.log(this.font);
     }
 
-    generate(topText, bottomText){
+    generate(topText, bottomText, flipText = false){
 
         let lastScale = this.layer.scaling
         
@@ -80,7 +80,7 @@ class LogoGenerator {
             //his.templateCircle.fillColor = 'black't
             this.circleGroup = this.createCircles(this.templateCircle)
 
-            this.assembleText(topText, bottomText)
+            this.assembleText(topText, bottomText, flipText)
 
             //this.createCircles(this.templateCircle)
             this.createRings()
@@ -199,12 +199,14 @@ class LogoGenerator {
         return this.rings
     }
 
-    assembleText(text1, text2){
+    assembleText(text1, text2, flipText = false){
         let [textpath1, w1] = this.createText(text1)
         let [textpath2, w2] = this.createText(text2)
         
         textpath1.bounds.bottomRight = this.circleGroup[0].bounds.bottomCenter.add([w1, 0])
-        textpath2.rotate(180)
+        if(!flipText){
+            textpath2.rotate(180)
+        }
         textpath2.bounds.topLeft = this.circleGroup[2].bounds.topCenter.add([-w2, 0])
 
         this.planet = new Group()

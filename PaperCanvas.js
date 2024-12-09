@@ -39,8 +39,8 @@ export class PaperCanvas extends HTMLElement {
 		//this.setSVGasBackground()
 	}
 
-	generatePattern(includeLogo = false){
-		this.pattern = new PatternGenerator();
+	generatePattern(text, includeLogo = false){
+		this.pattern = new PatternGenerator(text);
 		if(includeLogo){
 			this.logo.show()
 		}
@@ -91,8 +91,13 @@ export class PaperCanvas extends HTMLElement {
 		this.logo.setAngle(angle)
 	}
 
-	setText(topText, bottomText){
-		this.logo.generate(topText, bottomText)
+	setText(topText, bottomText, flipText = false){
+		this.logo.generate(topText, bottomText, flipText)
+		let vis = this.pattern.isVisible()
+		this.pattern = new PatternGenerator(topText+bottomText);
+		if(!vis){
+			this.pattern.hide()
+		}
 	}
 
 	async exportPNG(colored){
