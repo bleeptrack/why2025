@@ -45,7 +45,7 @@ class PatternGenerator {
 
         this.stars = []
         for(let i = 0; i < Math.random() * 150 + 80; i++) {
-            let star = new Path.Circle(new Point(0, 0), Math.random() * 5 + 3)
+            let star = new Path.Circle(new Point(0, 0), Math.random() * 10 + 2)
             star.scale(0.2)
             star.fillColor = 'white'
             star.position = Point.random().multiply(this.patternRectangle.bounds.size).add(this.patternRectangle.bounds.topLeft)
