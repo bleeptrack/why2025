@@ -213,6 +213,9 @@ export class Settings extends HTMLElement {
 				input[type="text"] {
 					margin: 1vh 0;
 				}
+				#generatePattern{
+					display: none;
+				}
 			</style>
 			<div id="content">
 				<paper-canvas id="paperCanvas"></paper-canvas>
