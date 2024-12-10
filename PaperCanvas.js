@@ -93,7 +93,8 @@ export class PaperCanvas extends HTMLElement {
 
 	setText(topText, bottomText, flipText = false){
 		this.logo.generate(topText, bottomText, flipText)
-		let vis = this.pattern.isVisible()
+		let vis = this.pattern ? this.pattern.isVisible() : false
+		
 		this.pattern = new PatternGenerator(topText+bottomText);
 		if(!vis){
 			this.pattern.hide()

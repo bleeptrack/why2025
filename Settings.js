@@ -121,6 +121,14 @@ export class Settings extends HTMLElement {
 				#settings-logo div{
 					margin: 3vh 1vh;
 				}
+				.text-inputs{
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+				}
+				.text-inputs button{
+					width: 5vh;
+				}
 				input[type="range"] {
 					-webkit-appearance: none;
 					appearance: none;
@@ -144,6 +152,17 @@ export class Settings extends HTMLElement {
 				}
 				#color-mode-selector button:hover {
 					opacity: 1;
+				}
+				#bottom-text-container{
+					margin: unset !important;
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					justify-content: space-between;
+					width: 100%;
+				}
+				#bottom-text-container input{
+					margin-right: 1vh;
 				}
 				.activeColorMode > svg{
 					fill: #61F2FF !important;
@@ -239,10 +258,17 @@ export class Settings extends HTMLElement {
 						</div>
 						<div class="text-inputs">
 							<input type="text" id="top-text" placeholder="Enter top text" value="WHY">
+							<button id="text-swap">
+								<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M320-440v-287L217-624l-57-56 200-200 200 200-57 56-103-103v287h-80ZM600-80 400-280l57-56 103 103v-287h80v287l103-103 57 56L600-80Z"/></svg>
+							</button>
+							<div id="bottom-text-container">
 							<input type="text" id="bottom-text" placeholder="Enter bottom text" value="2025">
 							<input type="checkbox" id="flip-text">
-							<label for="flip-text">Flip</label>
-							<button id="text-swap">Swap</button>
+							<label for="flip-text">
+								<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M480-80q-143 0-253-90T88-400h82q28 106 114 173t196 67q86 0 160-42.5T756-320H640v-80h240v240h-80v-80q-57 76-141 118T480-80Zm0-280q-50 0-85-35t-35-85q0-50 35-85t85-35q50 0 85 35t35 85q0 50-35 85t-85 35ZM80-560v-240h80v80q57-76 141-118t179-42q143 0 253 90t139 230h-82q-28-106-114-173t-196-67q-86 0-160 42.5T204-640h116v80H80Z"/></svg>
+							</label>
+							</div>
+							
 						</div>
 					</div>
 
