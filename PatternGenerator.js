@@ -1,6 +1,6 @@
 'use strict';
 
-import { addGlow, setColor } from './styler.js'
+import { addGlow, setColor, stripSVG } from './styler.js'
 import {prng_alea} from './node_modules/esm-seedrandom/esm/alea.min.mjs'
 
 class PatternGenerator {
@@ -39,6 +39,25 @@ class PatternGenerator {
 
     show(){
        this.layer.visible = true
+    }
+
+    stripDeco(){
+        stripSVG(this.patternGroup)
+    }
+
+    getBackup(){
+        return this.layer.exportJSON()
+    }
+
+    importBackup(backup){
+        let importLayer = new Layer()
+        importLayer.importJSON(backup)
+        importLayer.name = 'logo'
+        
+        this.layer.remove()
+        this.layer = importLayer
+        paper.project.addLayer(this.layer)
+        this.layer.activate()
     }
 
     createBaseStars() {
@@ -178,7 +197,7 @@ class PatternGenerator {
             if(star.wrappingStar) {
                 star.remove()
             }else{
-                addGlow(star, "white", 0.5, 0.1)
+                let starGroup = addGlow(star, "white", 0.5, 0.1)
             }
         }
     }

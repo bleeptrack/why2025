@@ -87,6 +87,13 @@ export class PaperCanvas extends HTMLElement {
 		this.logo.setColors(colors)
 	}
 
+	stripDeco(){
+		this.logo.stripDeco()
+		if(this.pattern){
+			this.pattern.stripDeco()
+		}
+	}
+
 	setAngle(angle){
 		this.logo.setAngle(angle)
 	}
@@ -104,11 +111,23 @@ export class PaperCanvas extends HTMLElement {
 	async exportPNG(colored){
 		
 			paper.view.draw();
+			
 			//paper.view.element.toBlob((blob) => { this.saveAs(blob, "image.png");});
 			let blob = await this.trimTransparentPixels()
 			this.saveAs(blob, "image.png")
 
 			if(!colored){
+				let backupLogo = this.logo.getBackup()
+				let backupPattern = this.pattern.getBackup()
+				
+				this.stripDeco()
+				paper.view.draw();
+				blob = await this.trimTransparentPixels()
+
+				this.pattern.importBackup(backupPattern)
+				this.logo.importBackup(backupLogo)
+
+				
 				// Create a temporary canvas for inverting colors
 				const invCanvas = document.createElement('canvas');
 				const invCtx = invCanvas.getContext('2d');
@@ -154,50 +173,75 @@ export class PaperCanvas extends HTMLElement {
 
 			let dropShadow = `
 			<filter id="dropShadow">
-			<feGaussianBlur in="SourceAlpha" stdDeviation="4" />
-			<feOffset dx="-4" dy="4" />
-			<feMerge>
-			<feMergeNode />
-			<feMergeNode in="SourceGraphic" />
-			</feMerge>
+				<feGaussianBlur in="SourceAlpha" stdDeviation="4" />
+				<feOffset dx="-4" dy="4" />
+				<feMerge>
+					<feMergeNode />
+					<feMergeNode in="SourceGraphic" />
+				</feMerge>
 			</filter>
 			<filter id="glow">
 				<feGaussianBlur in="SourceGraphic" stdDeviation="12" />
 			</filter>
 			`
-		
-			
-			
 
-			//this.setSVGasBackground()
-			// Get the SVG representation of the current paper.js project
+			let backupLogo = this.logo.getBackup()
+			let backupPattern = this.pattern.getBackup()
+
+			if(!colored){
+				this.stripDeco()
+			}
+		
+			paper.view.draw();
+			console.log(paper.project.activeLayer.children)
 			let svg = paper.project.exportSVG({ asString: true });
-
 			
-			svg = svg.replaceAll('id="dropshadow"', 'id="dropshadow" filter="url(#dropShadow)"');
-			svg = svg.replaceAll('id="glow"', 'id="glow" filter="url(#glow)"');
-			svg = svg.replace('><g', '>' + dropShadow + '<g');
+			if(colored){
+				svg = svg.replaceAll('id="dropshadow"', 'id="dropshadow" filter="url(#dropShadow)"');
+				svg = svg.replaceAll('id="glow"', 'id="glow" filter="url(#glow)"');
+				svg = svg.replace('><g', '>' + dropShadow + '<g');
+			}
+			
+			this.svgFileExport(svg)
 
-			// Create a Blob with the SVG content
-			const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+			if(!colored){
+				paper.view.draw();
+				svg = paper.project.exportSVG({ asString: true });
+				svg = svg.replaceAll('#ffffff', 'placeholder');
+				svg = svg.replaceAll('#000000', '#ffffff');
+				svg = svg.replaceAll('placeholder', '#000000');
 
-			// Create a temporary URL for the Blob
-			const url = URL.createObjectURL(blob);
+				this.svgFileExport(svg)
 
-			// Create a temporary anchor element
-			const link = document.createElement('a');
-			link.href = url;
-			link.download = 'image.svg';
-
-			// Append the link to the body, click it, and remove it
-			document.body.appendChild(link);
-			link.click();
-			document.body.removeChild(link);
-
-			// Release the URL object
-			URL.revokeObjectURL(url);
+				//paper.project.clear()
+				this.pattern.importBackup(backupPattern)
+				this.logo.importBackup(backupLogo)
+				
+				//console.log(paper.project.activeLayer.children)
+			}
 		
 
+	}
+
+	svgFileExport(svg){
+		// Create a Blob with the SVG content
+		const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
+
+		// Create a temporary URL for the Blob
+		const url = URL.createObjectURL(blob);
+
+		// Create a temporary anchor element
+		const link = document.createElement('a');
+		link.href = url;
+		link.download = 'image.svg';
+
+		// Append the link to the body, click it, and remove it
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+
+		// Release the URL object
+		URL.revokeObjectURL(url);
 	}
 
 	trimTransparentPixels() {

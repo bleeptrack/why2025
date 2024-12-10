@@ -1,7 +1,7 @@
 'use strict';
 
 import opentype from './node_modules/opentype.js/dist/opentype.module.js'
-import { addGlow, setColor, getAvailableColors } from './styler.js'
+import { addGlow, setColor, getAvailableColors, stripSVG } from './styler.js'
 
 class LogoGenerator {
 	constructor() {
@@ -42,12 +42,47 @@ class LogoGenerator {
 
 	}
 
+    getBackup(){
+        
+        this.planet.name = 'planet'
+        this.rings.name = 'rings'
+        this.templateCircle.name = 'templateCircle'
+        console.log("backup", this.layer.children)
+        return this.layer.exportJSON()
+
+    }
+
+    importBackup(backup){
+        let importLayer = new Layer()
+        importLayer.importJSON(backup)
+        importLayer.name = 'logo'
+        
+        this.layer.remove()
+        this.layer = importLayer
+        paper.project.addLayer(this.layer)
+        this.layer.activate()
+
+        this.planet = this.layer.children['planet']
+        this.rings = this.layer.children['rings']
+        this.templateCircle = this.layer.children['templateCircle']
+        console.log("imported", this.layer.children)
+    }
+
     hide(){
         this.layer.visible = false
     }
 
     show(){
         this.layer.visible = true
+    }
+
+    stripDeco(){
+        for(let group of this.planet.children){
+            stripSVG(group)
+        }
+        for(let group of this.rings.children){
+            stripSVG(group)
+        }
     }
 
     activateBackground(){
@@ -188,6 +223,8 @@ class LogoGenerator {
         cutCircle.remove()
         ring1.remove()
         ring2.remove()
+        leftover1.remove()
+        leftover2.remove()
 
         this.rings = new Group()
         this.rings.addChild(addGlow(leftover1))
@@ -237,6 +274,7 @@ class LogoGenerator {
         
         c.remove()
         outer.remove()
+        leftover.remove()
         return leftover
     }
 

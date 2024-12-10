@@ -14,19 +14,24 @@ export function addGlow(element, col, strokeCorrection, glowCorrection) {
     highlight.strokeCap = 'round'
     highlight.name = 'highlight'
 
+    
     let dropshadow = element.clone()
+    dropshadow.strokeColor = color
     dropshadow.shadowColor = 'black'
     dropshadow.shadowBlur = 4
     dropshadow.shadowOffset = new Point(-baseStrokeWidth/2, baseStrokeWidth/2)
     dropshadow.opacity = 0.5
     dropshadow.name = 'dropshadow'
+    
 
     let glow = element.clone()
+    glow.strokeColor = color
     glow.shadowColor = color
     glow.shadowBlur = baseStrokeWidth * 2 * (glowCorrection ? glowCorrection : 1)
     glow.name = 'glow'
 
     //make the main line slightlyfuzzy
+
     
     element.shadowColor = color
     element.shadowBlur = 4
@@ -54,9 +59,34 @@ export function getAvailableColors(){
     ]
 }
 
+export function stripSVG(group){
+    //group.children['line'].remove()
+    //let tmp = group.children[2].clone()
+    //console.log(group.children.length, group.children)
+
+    if(group.children['dropshadow']){
+        group.children['dropshadow'].remove()
+    }
+    if(group.children['glow']){
+        group.children['glow'].remove()
+    }
+    if(group.children['highlight']){
+        group.children['highlight'].remove()
+    }
+    
+    //group.removeChildren()
+    //group.remove()
+
+ 
+    console.log(group.children.length, group.children)
+    //return group
+    
+}
+
 export function setColor(group, col){
     console.log("setting color", group)
     group.children['line'].strokeColor = col
+    group.children['dropshadow'].strokeColor = col
     group.children['line'].shadowColor = col
     group.children['glow'].shadowColor = col
     group.children['glow'].strokeColor = col
