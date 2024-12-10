@@ -455,6 +455,7 @@ export class Settings extends HTMLElement {
 
 		this.shadow.getElementById('flip-text').addEventListener('click', () => {
 			this.paperCanvas.setText(this.shadow.getElementById('top-text').value, this.shadow.getElementById('bottom-text').value, this.shadow.getElementById('flip-text').checked)
+			this.paperCanvas.setType(this.getType())
 		})
 
 		this.shadow.getElementById('text-swap').addEventListener('click', () => {
@@ -463,6 +464,7 @@ export class Settings extends HTMLElement {
 			this.shadow.getElementById('top-text').value = bottomText
 			this.shadow.getElementById('bottom-text').value = topText
 			this.paperCanvas.setText(this.shadow.getElementById('top-text').value, this.shadow.getElementById('bottom-text').value, this.shadow.getElementById('flip-text').checked)
+			this.paperCanvas.setType(this.getType())
 		})
 
 		this.shadow.getElementById('downloadSvg').addEventListener('click', () => {

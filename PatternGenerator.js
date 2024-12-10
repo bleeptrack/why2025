@@ -6,6 +6,7 @@ import {prng_alea} from './node_modules/esm-seedrandom/esm/alea.min.mjs'
 class PatternGenerator {
 	constructor(text) {
         console.log("text seed", text)
+        this.seed = text
         this.rng = prng_alea(text)
 
         this.layer = new Layer()

@@ -55,13 +55,13 @@ export class PaperCanvas extends HTMLElement {
 			document.body.style.background = 'black'
 		}else if(type === 'pattern'){
 			if(!this.pattern){
-				this.pattern = new PatternGenerator();
+				this.pattern = new PatternGenerator("WHY2025");
 			}
 			this.logo.hide()
 			this.pattern.show()
 		}else{
 			if(!this.pattern){
-				this.pattern = new PatternGenerator();
+				this.pattern = new PatternGenerator("WHY2025");
 			}
 			this.logo.setScale(0.5)
 			this.logo.setBackgroundSpacer(true)
