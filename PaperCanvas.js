@@ -151,10 +151,32 @@ export class PaperCanvas extends HTMLElement {
 	}
 
 	exportSVG(colored){
+
+			let dropShadow = `
+			<filter id="dropShadow">
+			<feGaussianBlur in="SourceAlpha" stdDeviation="4" />
+			<feOffset dx="-4" dy="4" />
+			<feMerge>
+			<feMergeNode />
+			<feMergeNode in="SourceGraphic" />
+			</feMerge>
+			</filter>
+			<filter id="glow">
+				<feGaussianBlur in="SourceGraphic" stdDeviation="12" />
+			</filter>
+			`
 		
+			
+			
+
 			//this.setSVGasBackground()
 			// Get the SVG representation of the current paper.js project
-			const svg = paper.project.exportSVG({ asString: true });
+			let svg = paper.project.exportSVG({ asString: true });
+
+			
+			svg = svg.replaceAll('id="dropshadow"', 'id="dropshadow" filter="url(#dropShadow)"');
+			svg = svg.replaceAll('id="glow"', 'id="glow" filter="url(#glow)"');
+			svg = svg.replace('><g', '>' + dropShadow + '<g');
 
 			// Create a Blob with the SVG content
 			const blob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });

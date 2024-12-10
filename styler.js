@@ -10,7 +10,7 @@ export function addGlow(element, col, strokeCorrection, glowCorrection) {
     let highlight = element.clone()
     highlight.strokeWidth = element.strokeWidth * 0.1
     highlight.strokeColor = 'white'
-    highlight.opacity = 0.3
+    highlight.opacity = color.brightness/4
     highlight.strokeCap = 'round'
     highlight.name = 'highlight'
 
@@ -27,6 +27,7 @@ export function addGlow(element, col, strokeCorrection, glowCorrection) {
     glow.name = 'glow'
 
     //make the main line slightlyfuzzy
+    
     element.shadowColor = color
     element.shadowBlur = 4
     element.name = 'line'
