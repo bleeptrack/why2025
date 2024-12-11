@@ -49,6 +49,7 @@ export class PaperCanvas extends HTMLElement {
 	setType(type){
 		if(type === 'logo'){
 			this.logo.setScale(1)
+			this.logo.setRotation(0)
 			this.logo.setBackgroundSpacer(false)
 			this.logo.show()
 			this.pattern.hide()
@@ -62,8 +63,8 @@ export class PaperCanvas extends HTMLElement {
 		}else{
 			if(!this.pattern){
 				this.pattern = new PatternGenerator("WHY2025");
+				this.logo.setScale(0.5)
 			}
-			this.logo.setScale(0.5)
 			this.logo.setBackgroundSpacer(true)
 			this.logo.show()
 			this.pattern.show()
