@@ -1,7 +1,7 @@
 'use strict';
 
 import { addGlow, setColor, stripSVG } from './styler.js'
-import {prng_alea} from './node_modules/esm-seedrandom/esm/alea.min.mjs'
+import {prng_alea} from './node_modules/esm-seedrandom/esm/alea.min.js'
 
 class PatternGenerator {
 	constructor(text) {
