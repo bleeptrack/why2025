@@ -216,8 +216,52 @@ export class Settings extends HTMLElement {
 				#generatePattern{
 					display: none;
 				}
+				#help{
+					cursor: pointer;
+					position: absolute;
+					bottom: 1vh;
+					right: 1vh;
+				}
+				button:hover path{
+					fill: #61F2FF;
+				}
+				#help{
+					border: none !important;
+				}
+				#help-content{
+					width: 90%;
+					background-color: black;
+					color: white;
+					font-family: sans;
+					padding: 2%;
+				}
+				::backdrop{
+					background-color: rgba(0, 0, 0, 0.5);
+				}
 			</style>
 			<div id="content">
+				<button id="help" popovertarget="help-content">
+					<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="grey"><path d="M478-240q21 0 35.5-14.5T528-290q0-21-14.5-35.5T478-340q-21 0-35.5 14.5T428-290q0 21 14.5 35.5T478-240Zm-36-154h74q0-33 7.5-52t42.5-52q26-26 41-49.5t15-56.5q0-56-41-86t-97-30q-57 0-92.5 30T342-618l66 26q5-18 22.5-39t53.5-21q32 0 48 17.5t16 38.5q0 20-12 37.5T506-526q-44 39-54 59t-10 73Zm38 314q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>
+				</button>
+				<div popover id="help-content">
+					<h1>WHY2025 Logo Generator</h1>
+					<p>
+						Welcome to the <a href="https://why2025.org">WHY2025</a> logo generator!
+					</p>
+					<p>
+						The name of this version of the event sounds out an ominous existential question: why? Which is followed by the no less existential phrase: what hackers yearn for. We certainly yearn for events like these. But what do we yearn for in general? What does it even mean to ‘yearn for’ something? For us, pondering these questions conjured up images of dreaming of things, dreaming of technology, of stretching our wings, of expanding knowledge and exploring the unknown. We cycled through many, many ideas. From dreamy birds to newly generated constellations. Nothing quite felt right, until we got to space- and planetary exploration as a theme. Which worked beautifully with a saturated vaporwave-inspired colourstory.
+					</p>
+					<p>
+						The WHY2025 design has 80’s elements and lots of neon lights, and a subtle nod to the original space exploration idea we started with. The logo mimics the iconic setting sun designs from the ‘80s, using two half circles, with flipped lettering in the bottom half, and a happy yellow asteroid belt pulling the two halves together.
+					</p>
+					<p>
+						It glows like bright neon-tubing, as if it is a welcome sign to the diner that WHY2025 will be. A buffet of awesome people, talks, workshops, art and fun. 
+					</p>
+					<p>
+						You can use this generator to create your own WHY2025 logo! All outputs are free to use and share: CC-0!
+						Also check out the full WHY2025 styleguide <a href="https://wiki.why2025.org/Team:Huisstijl">here</a>.
+					</p>
+				</div>
 				<paper-canvas id="paperCanvas"></paper-canvas>
 				<div id="settings">
 
