@@ -383,6 +383,24 @@ export class Settings extends HTMLElement {
 			input.enable()
 		})
 	}
+
+	collectText(){
+		let topText = this.shadow.getElementById('top-text').value.trim() 
+		let bottomText = this.shadow.getElementById('bottom-text').value.trim()
+
+		if(topText === '' && bottomText === ''){
+			topText = 'easter'
+			bottomText = 'egg'
+		}else {
+			if(topText === ''){
+				topText = bottomText
+			}
+			if(bottomText === ''){
+				bottomText = topText
+			}
+		}
+		this.paperCanvas.setText(topText, bottomText, this.shadow.getElementById('flip-text').checked);
+	}
 	
 	connectedCallback() {
 		this.paperCanvas = this.shadow.getElementById('paperCanvas')
@@ -437,10 +455,8 @@ export class Settings extends HTMLElement {
 			console.log("type")
 			topTextDebounceTimer = setTimeout(() => {
 				console.log("set")
-				if(this.shadow.getElementById('top-text').value.trim() !== ''){
-					this.paperCanvas.setText(this.shadow.getElementById('top-text').value, this.shadow.getElementById('bottom-text').value, this.shadow.getElementById('flip-text').checked);
-					this.paperCanvas.setType(this.getType())
-				}
+				this.collectText()
+				this.paperCanvas.setType(this.getType())
 			}, 500); // 300ms debounce delay
 		});
 
@@ -449,10 +465,8 @@ export class Settings extends HTMLElement {
 			console.log("type")
 			topTextDebounceTimer = setTimeout(() => {
 				console.log("set")
-				if(this.shadow.getElementById('bottom-text').value.trim() !== ''){
-					this.paperCanvas.setText(this.shadow.getElementById('top-text').value, this.shadow.getElementById('bottom-text').value, this.shadow.getElementById('flip-text').checked);
-					this.paperCanvas.setType(this.getType())
-				}
+				this.collectText()
+				this.paperCanvas.setType(this.getType())
 			}, 500); // 300ms debounce delay
 		});
 

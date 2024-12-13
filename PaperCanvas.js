@@ -100,6 +100,7 @@ export class PaperCanvas extends HTMLElement {
 	}
 
 	setText(topText, bottomText, flipText = false){
+		console.log("setText", topText, bottomText, flipText)
 		this.logo.generate(topText, bottomText, flipText)
 		let vis = this.pattern ? this.pattern.isVisible() : false
 		
